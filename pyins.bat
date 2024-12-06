@@ -1,0 +1,1 @@
+pyinstaller --onefile --windowed --hidden-import=tkinter lrc_player.py

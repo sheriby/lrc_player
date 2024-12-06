@@ -1,0 +1,21 @@
+{
+    "lyrics_file": "test.lrc",
+    "font": {
+        "family": "Arial",
+        "size": 14,
+        "color": "#FBC6CF"
+    },
+    "time_font": {
+        "family": "Arial",
+        "size": 8,
+        "color": "#FBC6CF"
+    },
+    "window": {
+        "width": 600,
+        "height": 60,
+        "initial_position": {
+            "x": 1000,
+            "y": 1000
+        }
+    }
+}

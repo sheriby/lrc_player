@@ -41,7 +41,6 @@ class LyricsDisplay(tk.Tk):
         #获取屏幕的缩放因子
         ScaleFactor=ctypes.windll.shcore.GetScaleFactorForDevice(0)
         #设置程序缩放
-        #这里的root是你设定的窗口
         self.tk.call('tk', 'scaling', ScaleFactor/75)
 
 
@@ -69,14 +68,6 @@ class LyricsDisplay(tk.Tk):
         self.overrideredirect(True)
         self.geometry(f"{self.window_width}x{self.window_height}+{self.initial_x}+{self.initial_y}")
         self.configure(bg="black")
-
-        # 配置窗口
-        # self.canvas = tk.Canvas(self, width=self.window_width, height=self.window_height)
-        # self.canvas.pack()
-
-        # 半透明黑色背景
-        # self.translucent_bg = self.canvas.create_rectangle(0, 0, self.window_width, self.window_height, fill="#000000", outline="", stipple="gray25")
-
 
         # 时间标签，用于显示当前时间
         self.time_label = tk.Label(self, font=(self.time_font_family, self.time_font_size), fg=self.time_font_color, bg="black")
@@ -194,13 +185,11 @@ class LyricsDisplay(tk.Tk):
     def rewind_1_second(self, event):
         # 向前回退1秒
         self.start_time += 1  
-        # print("Rewind 1 second")
         self.update_display_after_time_change(is_rewind=True)  # 更新歌词显示
 
     def fast_forward_1_second(self, event):
         # 向前快进1秒
         self.start_time -= 1  
-        # print("Fast forward 1 second")
         self.update_display_after_time_change(is_rewind=False)  # 更新歌词显示
 
     def on_button_press(self, event):

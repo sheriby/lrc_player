@@ -1,12 +1,12 @@
 {
     "lyrics_file": "test.lrc",
     "font": {
-        "family": "Arial",
+        "family": "Microsoft YaHei",
         "size": 14,
         "color": "#FBC6CF"
     },
     "time_font": {
-        "family": "Arial",
+        "family": "Microsoft YaHei",
         "size": 8,
         "color": "#FBC6CF"
     },

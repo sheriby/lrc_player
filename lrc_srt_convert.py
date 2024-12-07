@@ -93,4 +93,4 @@ def convert(src, dst):
 
 
 if __name__ == '__main__':
-    convert("test.srt", "test2.lrc")
+    convert("aaa.srt", "aaa.lrc")

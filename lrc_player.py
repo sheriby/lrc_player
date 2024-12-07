@@ -6,6 +6,8 @@ import json
 import ctypes
 import os
 import sys
+from lrc_srt_convert import convert
+from vtt2srt import vtt_to_srt
 
 # 解析 LRC 文件
 def parse_lrc_file(file_path):
@@ -62,7 +64,7 @@ class LyricsDisplay(tk.Tk):
         # 透明窗体
         self.attributes("-topmost", True)
         # self.attributes("-transparentcolor", "white")
-        self.attributes("-alpha", 0.5)
+        self.attributes("-alpha", 0.4)
 
         # 设置无边框窗体
         self.overrideredirect(True)
@@ -123,6 +125,16 @@ class LyricsDisplay(tk.Tk):
 
     def load_lyrics(self, lyrics_file):
         # 读取歌词文件，返回歌词的时间和文本
+
+        if lyrics_file.split(".")[len(lyrics_file.split("."))-1] == "vtt":
+            vtt_to_srt(lyrics_file)
+            lyrics_file = lyrics_file.replace(".vtt", ".srt")
+
+        if lyrics_file.split(".")[len(lyrics_file.split("."))-1] == "srt":
+            output_file = lyrics_file.replace(".srt", ".lrc")
+            convert(lyrics_file, output_file)
+            lyrics_file = output_file
+
         lyrics = []
         with open(lyrics_file, 'r', encoding='utf-8') as file:
             for line in file:

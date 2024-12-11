@@ -8,6 +8,9 @@ import json
 from lrc_srt_convert import convert
 from vtt2srt import vtt_to_srt
 from config_manager import ConfigManager
+import pystray
+from PIL import Image
+import io
 
 class LyricsDisplay(tk.Tk):
     def __init__(self, music_file, main_window, subtitle_file=None):
@@ -23,7 +26,7 @@ class LyricsDisplay(tk.Tk):
         
         # 读取配置文件
         self.config = self.load_config()
-        
+         
         # 获取字幕文件路径
         if subtitle_file:
             lyrics_file = subtitle_file
@@ -137,9 +140,104 @@ class LyricsDisplay(tk.Tk):
         self.bind("<Down>", self.volume_down)  # 向下键降低音量
         self.bind("<Escape>", self.return_to_main)  # ESC键返回主界面
         self.after(100, self.update_lyric)  # 每 100 毫秒更新一次歌词
+        
+        # 创建系统托盘图标
+        self.create_tray_icon()
+        self.icon.run_detached()
+        
+        # 绑定Ctrl-h事件
+        self.bind("<Control-h>", self.toggle_window)
     
+    def create_tray_icon(self):
+        # 获取图标路径
+        if getattr(sys, 'frozen', False):
+            icon_path = os.path.join(os.path.dirname(sys.argv[0]), 'icon.ico')
+        else:
+            icon_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'icon.ico')
+        
+        # 加载图标
+        try:
+            image = Image.open(icon_path)
+        except FileNotFoundError:
+            # 如果找不到图标文件，使用默认图标
+            image = self.create_default_icon()
+        
+        # 创建菜单
+        menu = (
+            pystray.MenuItem("显示", self.show_window),
+            pystray.MenuItem("退出", self.quit_program)
+        )
+        
+        # 创建系统托盘图标
+        self.icon = pystray.Icon(
+            "lyrics",
+            image,
+            "LRC Player",
+            menu
+        )
+    
+    def create_default_icon(self):
+        """创建默认图标"""
+        # 创建一个简单的图标 (16x16 的纯色图标)
+        icon_data = [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0],
+            [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+            [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+            [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+            [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ]
+        
+        image = Image.new('RGB', (16, 16), color='white')
+        pixels = image.load()
+        for y in range(16):
+            for x in range(16):
+                if icon_data[y][x]:
+                    pixels[x, y] = (74, 144, 226)  # 使用主题蓝色 #4a90e2
+                else:
+                    pixels[x, y] = (255, 255, 255)
+        return image
+    
+    def toggle_window(self, event=None):
+        """切换窗口显示状态"""
+        self.withdraw()  # 隐藏窗口
+    
+    def show_window(self, icon=None, item=None):
+        """显示窗口"""
+        self.deiconify()  # 显示窗口
+        self.lift()  # 将窗口提到最前
+        self.focus_force()  # 强制获取焦点
+        
+    def quit_program(self, icon=None, item=None):
+        """退出程序"""
+        if self.icon._running:
+            self.icon.stop()  # 停止系统托盘图标
+        self.save_window_position()
+        if hasattr(pygame.mixer, 'music') and self.music_file:  # 检查 pygame.mixer 是否已初始化
+            try:
+                pygame.mixer.music.stop()
+                pygame.mixer.quit()
+            except pygame.error:
+                pass  # 忽略 pygame 相关错误
+        self.main_window.destroy()
+        self.quit()
+        self.destroy()
+
         
     def return_to_main(self, event=None):
+        """返回主界面"""
+        if self.icon._running:
+            self.icon.stop()  # 停止系统托盘图标
         self.save_window_position()
         pygame.mixer.music.stop()
         self.destroy()
@@ -159,19 +257,6 @@ class LyricsDisplay(tk.Tk):
         self.volume = max(0.0, self.volume - 0.1)
         pygame.mixer.music.set_volume(self.volume)
         
-    def quit_program(self, event=None):
-        """退出程序"""
-        self.save_window_position()
-        if hasattr(pygame.mixer, 'music') and self.music_file:  # 检查 pygame.mixer 是否已初始化
-            try:
-                pygame.mixer.music.stop()
-                pygame.mixer.quit()
-            except pygame.error:
-                pass  # 忽略 pygame 相关错误
-        self.main_window.destroy()
-        self.quit()
-        self.destroy()
-    
     def load_config(self):
         """加载配置文件"""
         if getattr(sys, 'frozen', False):

@@ -14,3 +14,4 @@ A simple program: open lrc file and play it on the desktop.
 - `<Space>` to play/pause
 - `<Esc>` to return to main window
 - `<Ctrl-c>` to quit this application
+- `<Ctrl-h>` to hide window to system tray

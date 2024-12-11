@@ -12,6 +12,17 @@ class MainWindow(tk.Tk):
     def __init__(self):
         super().__init__()
         
+        # 设置窗口图标
+        if getattr(sys, 'frozen', False):
+            icon_path = os.path.join(os.path.dirname(sys.argv[0]), 'icon.ico')
+        else:
+            icon_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'icon.ico')
+        
+        try:
+            self.iconbitmap(icon_path)
+        except tk.TclError:
+            pass  # 如果图标文件不存在，使用默认图标
+        
         # 加载配置文件
         self.config_manager = ConfigManager()
         self.config = self.config_manager.load_config()
@@ -153,7 +164,7 @@ class MainWindow(tk.Tk):
             self.playlist.clear()
             self.tree.delete(*self.tree.get_children())
             
-            # 初始化pygame mixer用于非mp3文件
+            # 初��化pygame mixer用于非mp3文件
             pygame.mixer.init()
             
             # 遍历文件夹中的音乐文件

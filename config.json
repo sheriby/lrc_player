@@ -1,21 +1,28 @@
 {
-    "lyrics_file": "aaa.vtt",
     "font": {
         "family": "Microsoft YaHei",
-        "size": 14,
+        "size": 10,
         "color": "#FBC6CF"
     },
     "time_font": {
         "family": "Microsoft YaHei",
-        "size": 8,
+        "size": 6,
         "color": "#FBC6CF"
     },
     "window": {
-        "width": 600,
-        "height": 60,
+        "width": 480,
+        "height": 50,
         "initial_position": {
-            "x": 1000,
-            "y": 1000
+            "x": 1156,
+            "y": 1033
+        }
+    },
+    "main_window": {
+        "width": 556,
+        "height": 370,
+        "initial_position": {
+            "x": 482,
+            "y": 306
         }
     }
 }

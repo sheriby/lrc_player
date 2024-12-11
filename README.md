@@ -6,8 +6,11 @@ A simple program: open lrc file and play it on the desktop.
 
 - use `pyins.bat` and `pyinstaller` to build your application or use `.exe` in `dist/`
 
-- put your lrc file
+- open your dirtory or file
 
 - some font and ui config in config.json.
-- `->` and `<-` to forward and backward
-- `Ctrl-c` to quit this application
+- `<Left>` and `<Right>` to forward and backward
+- `<Up>` and `<Down>` to change volume
+- `<Space>` to play/pause
+- `<Esc>` to return to main window
+- `<Ctrl-c>` to quit this application

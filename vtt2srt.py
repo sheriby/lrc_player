@@ -46,14 +46,14 @@ def fileCreate(strNamaFile, strData):
         f.writelines(str(strData))
         f.close()
 
-    print("file created: " + strNamaFile + "\n")
+    # print("file created: " + strNamaFile + "\n")
 
 
 def readTextFile(strNamaFile):
 
     f = open(strNamaFile, mode='r', encoding='utf-8')
 
-    print("file being read: " + strNamaFile + "\n")
+    # print("file being read: " + strNamaFile + "\n")
 
     return f.read()
 
@@ -68,7 +68,7 @@ def vtt_to_srt(strNamaFile):
 
     strNamaFile = strNamaFile.replace(".vtt", ".srt")
 
-    print(strNamaFile)
+    # print(strNamaFile)
 
     fileCreate(strNamaFile, strData)
 

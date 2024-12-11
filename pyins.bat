@@ -1,1 +1,2 @@
-pyinstaller --onefile --windowed --hidden-import=tkinter lrc_player.py
+pyinstaller -F -w --hidden-import=tkinter --hidden-import=pygame lrc_player.py
+copy "config.json" "dist/config.json"

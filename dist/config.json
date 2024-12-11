@@ -11,11 +11,15 @@
         "color": "#FBC6CF"
     },
     "window": {
-        "width": 400,
+        "width": 480,
         "height": 60,
         "initial_position": {
-            "x": 800,
-            "y": 800
+            "x": 1161,
+            "y": 1033
         }
+    },
+    "main_window": {
+        "width": 556,
+        "height": 370
     }
 }

@@ -1,5 +1,4 @@
 {
-    "lyrics_file": "aaa.vtt",
     "font": {
         "family": "Microsoft YaHei",
         "size": 10,
@@ -12,14 +11,18 @@
     },
     "window": {
         "width": 480,
-        "height": 60,
+        "height": 50,
         "initial_position": {
-            "x": 1161,
+            "x": 1155,
             "y": 1033
         }
     },
     "main_window": {
         "width": 556,
-        "height": 370
+        "height": 370,
+        "initial_position": {
+            "x": 482,
+            "y": 306
+        }
     }
 }

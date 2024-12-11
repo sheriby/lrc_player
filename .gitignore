@@ -3,3 +3,5 @@ __pycache__
 *.lrc
 *.srt
 *.vtt
+*.mp3
+*.wav

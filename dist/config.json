@@ -2,20 +2,20 @@
     "lyrics_file": "aaa.vtt",
     "font": {
         "family": "Microsoft YaHei",
-        "size": 14,
+        "size": 10,
         "color": "#FBC6CF"
     },
     "time_font": {
         "family": "Microsoft YaHei",
-        "size": 8,
+        "size": 6,
         "color": "#FBC6CF"
     },
     "window": {
-        "width": 600,
+        "width": 400,
         "height": 60,
         "initial_position": {
-            "x": 1000,
-            "y": 1000
+            "x": 800,
+            "y": 800
         }
     }
 }
